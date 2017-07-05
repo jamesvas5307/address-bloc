@@ -13,7 +13,8 @@ class MenuController
     puts "2 - Create an entry"
     puts "3 - Search for an entry"
     puts "4 - Import Entries from a CSV"
-    puts "5 - Exit"
+    puts "5 - View Entry Number n"
+    puts "6 - Exit"
 
 
   selection = gets.to_i
@@ -21,7 +22,7 @@ class MenuController
   case selection
   when 1
     system "clear"
-    view_all_entries
+    view_all_entries(true)
   when 2
     system "clear"
     create_entry
@@ -35,6 +36,9 @@ class MenuController
     read_csv
     main_menu
   when 5
+    system "clear"
+    view_entry
+  when 6
     puts "Goodbye"
     exit(0)
   else
@@ -44,11 +48,12 @@ class MenuController
   end
 end
 
-  def view_all_entries
-    address_book.entries.each do |entry|
+  def view_all_entries(show_submenu)
+    address_book.entries.each_with_index do |entry, index|
       system "clear"
+      puts "Entry Number - #{index}"
       puts entry.to_s
-      entry_submenu(entry)
+      entry_submenu(entry) if show_submenu
     end
       puts "End of entries"
   end
@@ -73,6 +78,19 @@ end
   end
 
   def read_csv
+  end
+
+  def view_entry
+    view_all_entries(false)
+    puts 'Select the number entry you\'d like to view'
+    entry_search = gets.to_i
+    if entry_search < address_book.entries.count
+      puts address_book.entries[entry_search]
+      entry_submenu(address_book.entries[entry_search])
+    else
+      puts "Your selection #{entry_search} is not valid, please try again"
+      main_menu
+    end
   end
 
   def entry_submenu(entry)
