@@ -14,7 +14,8 @@ class MenuController
     puts "3 - Search for an entry"
     puts "4 - Import Entries from a CSV"
     puts "5 - View Entry Number n"
-    puts "6 - Exit"
+    puts "6 - Delete all Entries!"
+    puts "7 - Exit"
 
 
   selection = gets.to_i
@@ -39,6 +40,9 @@ class MenuController
     system "clear"
     view_entry
   when 6
+    system "clear"
+    nuke
+  when 7
     puts "Goodbye"
     exit(0)
   else
@@ -169,6 +173,22 @@ end
 
     puts "Updated entry:"
     puts entry
+  end
+
+  def nuke
+    puts "Are you sure you want to delete all entries?(Y/N)"
+    response = gets.chomp
+    if response == "Y"
+      address_book.entries.clear
+      puts "All Entries Deleted!"
+      main_menu
+    elsif response == "N"
+      puts "All Entires Secure"
+      main_menu
+    else
+      puts "Response Not Recognized"
+      nuke
+    end  
   end
 
   def search_submenu(entry)
