@@ -188,7 +188,7 @@ end
     else
       puts "Response Not Recognized"
       nuke
-    end  
+    end
   end
 
   def search_submenu(entry)
